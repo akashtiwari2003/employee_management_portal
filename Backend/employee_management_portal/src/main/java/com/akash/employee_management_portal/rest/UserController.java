@@ -21,17 +21,17 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
-
-//    @PostMapping("/login")
-//    public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
-//        String email = loginRequest.getEmail();
-//        String password = loginRequest.getPassword();
-//        return userService.findByEmailAndPassword(email,password);
+//    @GetMapping("/login")
+//    public String loginPage() {
+//        return "login";
 //    }
+
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
+        return userService.findByEmailAndPassword(email,password);
+    }
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody RegistrationRequest registrationRequest) {
