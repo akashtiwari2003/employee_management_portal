@@ -21,19 +21,6 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private WorkerRepository workerRepository;
 
-
-
-//    @Autowired
-//    public UserServiceImpl(WorkerRepository workerRepository) {
-//        this.workerRepository = workerRepository;
-//    }
-
-    //    @Autowired
-//    public UserServiceImpl(UserRepository userRepository) {
-//        this.userRepository = userRepository;
-//    }
-
-
     @Override
     public User findById(String theId) {
         return null;
@@ -57,8 +44,12 @@ public class UserServiceImpl implements UserService{
                 registrationRequest.getLastName(),
                 registrationRequest.getPassword(),
                 registrationRequest.getType());
-
         workerRepository.save(worker);
+
+        User user = new User(registrationRequest.getEmail(),
+                registrationRequest.getPassword(),
+                registrationRequest.getType());
+        userRepository.save(user);
         return ResponseEntity.ok("User Registered Successfully");
     }
 

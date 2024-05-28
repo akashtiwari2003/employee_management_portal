@@ -6,6 +6,7 @@ import com.akash.employee_management_portal.entity.User;
 import com.akash.employee_management_portal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,12 +21,17 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
-        String email = loginRequest.getEmail();
-        String password = loginRequest.getPassword();
-        return userService.findByEmailAndPassword(email,password);
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
     }
+
+//    @PostMapping("/login")
+//    public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
+//        String email = loginRequest.getEmail();
+//        String password = loginRequest.getPassword();
+//        return userService.findByEmailAndPassword(email,password);
+//    }
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody RegistrationRequest registrationRequest) {
