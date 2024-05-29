@@ -2,9 +2,7 @@ package com.akash.employee_management_portal.service;
 
 import com.akash.employee_management_portal.dto.RegistrationRequest;
 import com.akash.employee_management_portal.entity.User;
-import com.akash.employee_management_portal.entity.Worker;
 import com.akash.employee_management_portal.repository.UserRepository;
-import com.akash.employee_management_portal.repository.WorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,22 +15,6 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private WorkerRepository workerRepository;
-
-
-
-//    @Autowired
-//    public UserServiceImpl(WorkerRepository workerRepository) {
-//        this.workerRepository = workerRepository;
-//    }
-
-    //    @Autowired
-//    public UserServiceImpl(UserRepository userRepository) {
-//        this.userRepository = userRepository;
-//    }
-
 
     @Override
     public User findById(String theId) {
@@ -52,14 +34,26 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public ResponseEntity<String> registerUser(RegistrationRequest registrationRequest) {
-        Worker worker = new Worker(registrationRequest.getEmail(),
+//        Worker worker = new Worker(registrationRequest.getEmail(),
+//                registrationRequest.getFirstName(),
+//                registrationRequest.getLastName(),
+//                registrationRequest.getPassword(),
+//                registrationRequest.getType());
+//        workerRepository.save(worker);
+//
+//        User user = new User(registrationRequest.getEmail(),
+//                registrationRequest.getPassword(),
+//                registrationRequest.getType());
+//        userRepository.save(user);
+        User user = new User(
+                registrationRequest.getEmail(),
                 registrationRequest.getFirstName(),
                 registrationRequest.getLastName(),
                 registrationRequest.getPassword(),
-                registrationRequest.getType());
-
-        workerRepository.save(worker);
-        return ResponseEntity.ok("User Registered Successfully");
+                registrationRequest.getType()
+        );
+        userRepository.save(user);
+return ResponseEntity.ok("User Registered Successfully");
     }
 
 }
