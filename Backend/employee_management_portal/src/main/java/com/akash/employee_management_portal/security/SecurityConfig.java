@@ -2,14 +2,13 @@ package com.akash.employee_management_portal.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
 import javax.sql.DataSource;
-import javax.xml.crypto.dsig.spec.ExcC14NParameterSpec;
 
 @Configuration
 public class SecurityConfig {
@@ -24,13 +23,15 @@ public class SecurityConfig {
         http.authorizeHttpRequests(configurer ->
                 configurer
                         .requestMatchers("/resources/**").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/register" ).hasRole("ADMIN")
                         .anyRequest().permitAll()
-                );
+        );
         http.httpBasic(Customizer.withDefaults());
         http.csrf(csrf -> csrf.disable());
-    return http.build();
+        http.cors(Customizer.withDefaults());
+        return http.build();
     }
+
+
 
 
 }
