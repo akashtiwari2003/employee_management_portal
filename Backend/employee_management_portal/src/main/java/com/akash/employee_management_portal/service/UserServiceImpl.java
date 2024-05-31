@@ -56,4 +56,9 @@ public class UserServiceImpl implements UserService{
 return ResponseEntity.ok("User Registered Successfully");
     }
 
+    @Override
+    public void deleteEmployeeByEmail(String email) {
+        userRepository.deleteById(email);
+    }
+
 }
