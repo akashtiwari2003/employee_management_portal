@@ -79,5 +79,10 @@ return ResponseEntity.ok("User Registered Successfully");
         return userRepository.findEmployeeSkills();
     }
 
+    @Override
+    public List<EmployeeSkillDTO> filterEmployeeWithSkills(String skill) {
+        return userRepository.filterEmployeeWithSkills(skill);
+    }
+
 
 }

@@ -18,4 +18,11 @@ public interface UserRepository extends JpaRepository<User, String> {
             "INNER JOIN Skill s ON s.Id = es.skillId " +
             "WHERE u.type = 'employee'")
     List<EmployeeSkillDTO> findEmployeeSkills();
+
+    @Query("SELECT new com.akash.employee_management_portal.dto.EmployeeSkillDTO(u.firstName, s.skillName) " +
+            "FROM User u " +
+            "INNER JOIN EmployeeSkill es ON u.email = es.employeeEmail " +
+            "INNER JOIN Skill s ON s.Id = es.skillId " +
+            "WHERE u.type = 'employee' AND s.skillName = ?1")
+    List<EmployeeSkillDTO> filterEmployeeWithSkills(String skillName);
 }

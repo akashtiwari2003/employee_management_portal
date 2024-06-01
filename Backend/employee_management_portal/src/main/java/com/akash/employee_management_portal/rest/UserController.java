@@ -62,6 +62,10 @@ public class UserController {
         return userService.findEmployeeSkills();
     }
 
+    @GetMapping("/employeeskills/{skill}")
+    public List<EmployeeSkillDTO> filterEmployeeWithSkill(@PathVariable("skill") String skill) {
+        return userService.filterEmployeeWithSkills(skill);
+    }
 
 
 }
