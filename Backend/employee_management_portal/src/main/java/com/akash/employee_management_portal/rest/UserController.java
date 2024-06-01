@@ -2,7 +2,9 @@ package com.akash.employee_management_portal.rest;
 
 import com.akash.employee_management_portal.dto.LoginRequest;
 import com.akash.employee_management_portal.dto.RegistrationRequest;
+import com.akash.employee_management_portal.entity.Project;
 import com.akash.employee_management_portal.entity.User;
+import com.akash.employee_management_portal.service.ProjectService;
 import com.akash.employee_management_portal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +16,8 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    private UserService userService;
-
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
+    private UserService userService;
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("/login")
@@ -58,5 +55,7 @@ public class UserController {
     public List<User> getAll() {
         return userService.findAll();
     }
+
+
 
 }
