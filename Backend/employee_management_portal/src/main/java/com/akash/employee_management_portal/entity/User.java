@@ -2,6 +2,8 @@ package com.akash.employee_management_portal.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "user")
 public class User {
@@ -21,6 +23,9 @@ public class User {
 
     @Column(name = "type")
     private String type;
+
+    @OneToMany(mappedBy = "user")
+    private Set<EmployeeSkill> employeeSkill;
 
     public User() {
     }
