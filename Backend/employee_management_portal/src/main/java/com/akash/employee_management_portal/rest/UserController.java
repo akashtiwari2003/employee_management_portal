@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 public class UserController {
@@ -37,4 +39,24 @@ public class UserController {
     public void deleteEmployee(@PathVariable("email") String email) {
         userService.deleteEmployeeByEmail(email );
     }
+
+    @GetMapping("/employee")
+    public List<User> getAllEmployees() {
+        return userService.findByType("EMPLOYEE");
+    }
+    @GetMapping("/manager")
+    public List<User> getAllManagers() {
+        return userService.findByType("MANAGER");
+    }
+
+    @GetMapping("/admin")
+    public List<User> getAllAdmin() {
+        return userService.findByType("ADMIN");
+    }
+
+    @GetMapping("/all")
+    public List<User> getAll() {
+        return userService.findAll();
+    }
+
 }

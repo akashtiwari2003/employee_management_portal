@@ -1,6 +1,7 @@
 package com.akash.employee_management_portal.service;
 
 import com.akash.employee_management_portal.dto.RegistrationRequest;
+import com.akash.employee_management_portal.dto.UpdateRequest;
 import com.akash.employee_management_portal.entity.User;
 import com.akash.employee_management_portal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -60,5 +62,16 @@ return ResponseEntity.ok("User Registered Successfully");
     public void deleteEmployeeByEmail(String email) {
         userRepository.deleteById(email);
     }
+
+    @Override
+    public List<User> findByType(String type) {
+        return userRepository.findByType(type);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
 
 }
