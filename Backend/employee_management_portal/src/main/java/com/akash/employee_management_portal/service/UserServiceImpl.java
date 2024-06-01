@@ -1,5 +1,6 @@
 package com.akash.employee_management_portal.service;
 
+import com.akash.employee_management_portal.dto.EmployeeSkillDTO;
 import com.akash.employee_management_portal.dto.RegistrationRequest;
 import com.akash.employee_management_portal.dto.UpdateRequest;
 import com.akash.employee_management_portal.entity.User;
@@ -71,6 +72,11 @@ return ResponseEntity.ok("User Registered Successfully");
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public List<EmployeeSkillDTO> findEmployeeSkills() {
+        return userRepository.findEmployeeSkills();
     }
 
 

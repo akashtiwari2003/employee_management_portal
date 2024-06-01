@@ -1,5 +1,6 @@
 package com.akash.employee_management_portal.service;
 
+import com.akash.employee_management_portal.dto.EmployeeSkillDTO;
 import com.akash.employee_management_portal.dto.RegistrationRequest;
 import com.akash.employee_management_portal.dto.UpdateRequest;
 import com.akash.employee_management_portal.entity.User;
@@ -14,4 +15,5 @@ public interface UserService {
     void deleteEmployeeByEmail(String email);
     List<User> findByType(String type);
     List<User> findAll();
+    List<EmployeeSkillDTO> findEmployeeSkills();
 }
