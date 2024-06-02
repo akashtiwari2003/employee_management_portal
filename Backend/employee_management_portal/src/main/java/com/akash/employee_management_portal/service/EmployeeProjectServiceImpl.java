@@ -19,4 +19,11 @@ public class EmployeeProjectServiceImpl implements EmployeeProjectService{
         employeeProjectRepository.save(employeeProject);
         return ResponseEntity.ok("Project Assigned to Employee");
     }
+
+    @Override
+    public ResponseEntity<String> unassignEmployee(EmployeeProjectDTO employeeProjectDTO) {
+        EmployeeProject employeeProject = employeeProjectRepository.findByEmployeeEmailAndProjectId(employeeProjectDTO.getEmployeeEmail(),employeeProjectDTO.getProjectId());
+        employeeProjectRepository.delete(employeeProject);
+        return ResponseEntity.ok("Project Unassigned from Employee");
+    }
 }

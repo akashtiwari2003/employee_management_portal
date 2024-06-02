@@ -5,4 +5,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface EmployeeProjectService {
     ResponseEntity<String> assignEmployee(EmployeeProjectDTO employeeProjectDTO);
+    ResponseEntity<String> unassignEmployee(EmployeeProjectDTO employeeProjectDTO);
 }
