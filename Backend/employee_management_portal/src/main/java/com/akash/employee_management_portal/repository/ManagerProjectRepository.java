@@ -4,5 +4,5 @@ import com.akash.employee_management_portal.entity.ManagerProject;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ManagerProjectRepository extends JpaRepository<ManagerProject, String> {
-    ManagerProject findByManagerEmailAndProjectId(String managerEmail, int projectId);
+    ManagerProject findByManagerEmail(String managerEmail);
 }

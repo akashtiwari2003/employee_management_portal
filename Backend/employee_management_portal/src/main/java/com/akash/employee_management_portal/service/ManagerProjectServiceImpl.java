@@ -21,8 +21,8 @@ public class ManagerProjectServiceImpl implements ManagerProjectService{
     }
 
     @Override
-    public ResponseEntity<String> unassignManager(ManagerProjectDTO managerProjectDTO) {
-        ManagerProject managerProject = managerProjectRepository.findByManagerEmailAndProjectId(managerProjectDTO.getManagerEmail(), managerProjectDTO.getProjectId());
+    public ResponseEntity<String> unassignManager(String managerEmail) {
+        ManagerProject managerProject = managerProjectRepository.findByManagerEmail(managerEmail);
         managerProjectRepository.delete(managerProject);
         return ResponseEntity.ok("Project Unassigned from Manager");
     }
