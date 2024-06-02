@@ -5,4 +5,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface ManagerProjectService {
     ResponseEntity<String> assignManager(ManagerProjectDTO managerProjectDTO);
+    ResponseEntity<String> unassignManager(ManagerProjectDTO managerProjectDTO);
 }
