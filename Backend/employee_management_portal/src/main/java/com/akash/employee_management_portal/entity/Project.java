@@ -20,8 +20,7 @@ public class Project {
     public Project() {
     }
 
-    public Project(long projectId, String projectName, String projectDesc) {
-        this.projectId = projectId;
+    public Project(String projectName, String projectDesc) {
         this.projectName = projectName;
         this.projectDesc = projectDesc;
     }

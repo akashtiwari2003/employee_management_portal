@@ -22,8 +22,7 @@ public class Skill {
     public Skill() {
     }
 
-    public Skill(long id, String name) {
-        this.id = id;
+    public Skill(String name) {
         this.skillName = name;
     }
 
