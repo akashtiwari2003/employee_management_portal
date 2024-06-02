@@ -4,9 +4,7 @@ import com.akash.employee_management_portal.dto.EmployeeProjectDTO;
 import com.akash.employee_management_portal.service.EmployeeProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class EmployeeController {
@@ -16,5 +14,10 @@ public class EmployeeController {
     @PostMapping("/assignemployee")
     public ResponseEntity<String> assignEmployee(@RequestBody EmployeeProjectDTO employeeProjectDTO){
         return employeeProjectService.assignEmployee(employeeProjectDTO);
+    }
+
+    @DeleteMapping("/unassign/{employeeEmail}")
+    public ResponseEntity<String> unassignManager(@PathVariable("employeeEmail") String employeeEmail){
+        return employeeProjectService.unassignEmployee(employeeEmail);
     }
 }
