@@ -18,16 +18,24 @@ document.getElementById('loginForm').addEventListener('submit', async function (
         let data;
         try {
             data = await response.json();
-            console.log(data);
+            console.log(data.type);
         } catch (error) {
-            // Handle JSON parsing error
             document.getElementById('error-message').textContent = 'Invalid response from server';
             return;
         }
 
         if (response.ok) {
-            // Handle successful login
+            localStorage.setItem('username', username);
             alert('Login successful!');
+            if(data.type == "ADMIN"){
+                window.location.href = "adminDashboard.html";
+            }
+            else if(data.type == "MANAGER"){
+                window.location.href = "managerDashboard.html";
+            }
+            else if(data.type == "EMPLOYEE"){
+                window.location.href = "employeeDashboard.html";
+            }
             // Redirect to another page or do something else
         } else {
             // Handle login failure
