@@ -26,6 +26,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
         if (response.ok) {
             localStorage.setItem('username', username);
+            localStorage.setItem('name',data.firstName)
             alert('Login successful!');
             if(data.type == "ADMIN"){
                 window.location.href = "adminDashboard.html";
@@ -36,13 +37,10 @@ document.getElementById('loginForm').addEventListener('submit', async function (
             else if(data.type == "EMPLOYEE"){
                 window.location.href = "employeeDashboard.html";
             }
-            // Redirect to another page or do something else
         } else {
-            // Handle login failure
             document.getElementById('error-message').textContent = data.message || 'Login failed';
         }
     } catch (error) {
-        // Handle fetch error
         document.getElementById('error-message').textContent = 'An error occurred: ' + error.message;
     }
 });
