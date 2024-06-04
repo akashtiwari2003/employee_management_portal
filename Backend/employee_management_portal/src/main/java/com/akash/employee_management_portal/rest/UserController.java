@@ -1,5 +1,6 @@
 package com.akash.employee_management_portal.rest;
 
+import com.akash.employee_management_portal.dto.EmployeeProjectDTO;
 import com.akash.employee_management_portal.dto.EmployeeSkillDTO;
 import com.akash.employee_management_portal.dto.LoginRequest;
 import com.akash.employee_management_portal.dto.RegistrationRequest;
@@ -67,5 +68,9 @@ public class UserController {
         return userService.filterEmployeeWithSkills(skill);
     }
 
+    @GetMapping("/employeesproject")
+    List<EmployeeProjectDTO> getEmployeesAndProjects(){
+        return userService.getEmployeesAndProjects();
+    }
 
 }

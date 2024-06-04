@@ -1,5 +1,6 @@
 package com.akash.employee_management_portal.service;
 
+import com.akash.employee_management_portal.dto.EmployeeProjectDTO;
 import com.akash.employee_management_portal.dto.EmployeeSkillDTO;
 import com.akash.employee_management_portal.dto.RegistrationRequest;
 import com.akash.employee_management_portal.dto.UpdateRequest;
@@ -82,6 +83,11 @@ return ResponseEntity.ok("User Registered Successfully");
     @Override
     public List<EmployeeSkillDTO> filterEmployeeWithSkills(String skill) {
         return userRepository.filterEmployeeWithSkills(skill);
+    }
+
+    @Override
+    public List<EmployeeProjectDTO> getEmployeesAndProjects() {
+        return userRepository.getEmployeesAndProjects();
     }
 
 

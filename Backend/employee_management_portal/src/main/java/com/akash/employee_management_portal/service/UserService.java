@@ -1,5 +1,6 @@
 package com.akash.employee_management_portal.service;
 
+import com.akash.employee_management_portal.dto.EmployeeProjectDTO;
 import com.akash.employee_management_portal.dto.EmployeeSkillDTO;
 import com.akash.employee_management_portal.dto.RegistrationRequest;
 import com.akash.employee_management_portal.dto.UpdateRequest;
@@ -17,4 +18,5 @@ public interface UserService {
     List<User> findAll();
     List<EmployeeSkillDTO> findEmployeeSkills();
     List<EmployeeSkillDTO> filterEmployeeWithSkills(String skill);
+    List<EmployeeProjectDTO> getEmployeesAndProjects();
 }
