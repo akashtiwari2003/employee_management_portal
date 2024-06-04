@@ -1,9 +1,6 @@
 package com.akash.employee_management_portal.rest;
 
-import com.akash.employee_management_portal.dto.EmployeeProjectDTO;
-import com.akash.employee_management_portal.dto.EmployeeSkillDTO;
-import com.akash.employee_management_portal.dto.LoginRequest;
-import com.akash.employee_management_portal.dto.RegistrationRequest;
+import com.akash.employee_management_portal.dto.*;
 import com.akash.employee_management_portal.entity.Project;
 import com.akash.employee_management_portal.entity.User;
 import com.akash.employee_management_portal.service.ProjectService;
@@ -34,6 +31,11 @@ public class UserController {
         return userService.registerUser(registrationRequest);
     }
 
+    @PutMapping("/user/update")
+    public ResponseEntity<String> updateUser(@RequestBody RegistrationRequest updateRequest){
+        return userService.updateUser(updateRequest);
+    }
+
     @DeleteMapping("/delete/{email}")
     public void deleteEmployee(@PathVariable("email") String email) {
         userService.deleteEmployeeByEmail(email );
@@ -43,6 +45,12 @@ public class UserController {
     public List<User> getAllEmployees() {
         return userService.findByType("EMPLOYEE");
     }
+
+    @GetMapping("/user/{email}")
+    public User findByEmail(@PathVariable("email") String userEmail){
+        return userService.findByEmail(userEmail);
+    }
+
     @GetMapping("/manager")
     public List<User> getAllManagers() {
         return userService.findByType("MANAGER");

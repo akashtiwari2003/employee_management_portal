@@ -16,25 +16,64 @@ addBtn.addEventListener("click", function() {
 
 const viewUsersBtn = document.getElementById("viewUsersBtn");
 viewUsersBtn.addEventListener("click", function() {
+  const content = document.querySelector(".content");  
+  content.innerHTML = "";
+    displayFilterButtons();
+    fetchUsers("http://localhost:8085/all");
+});
+  
+  function displayFilterButtons() {
     const content = document.querySelector(".content");
-    content.innerHTML = "";
-    const userCardsContainer = document.createElement("div");
-    content.appendChild(userCardsContainer);
+    const filterButtonsContainer = document.createElement("div");
+    filterButtonsContainer.classList.add("filter-buttons");
+    
+    const filterAllBtn = document.createElement("button");
+    filterAllBtn.id = "filterAllBtn";
+    filterAllBtn.textContent = "All";
+    filterAllBtn.addEventListener("click", function() {
+        fetchUsers("http://localhost:8085/all");
+    });
+
+    const filterManagersBtn = document.createElement("button");
+    filterManagersBtn.id = "filterManagersBtn";
+    filterManagersBtn.textContent = "Managers";
+    filterManagersBtn.addEventListener("click", function() {
+        fetchUsers("http://localhost:8085/manager");
+    });
+
+    const filterEmployeesBtn = document.createElement("button");
+    filterEmployeesBtn.id = "filterEmployeesBtn";
+    filterEmployeesBtn.textContent = "Employees";
+    filterEmployeesBtn.addEventListener("click", function() {
+        fetchUsers("http://localhost:8085/employee");
+    });
+
+    filterButtonsContainer.appendChild(filterAllBtn);
+    filterButtonsContainer.appendChild(filterManagersBtn);
+    filterButtonsContainer.appendChild(filterEmployeesBtn);
+
+    content.appendChild(filterButtonsContainer);
+  }
+
+  function fetchUsers(url) {
+    const content = document.querySelector(".content");
+    const userCardsContainer = document.querySelector(".user-cards") || document.createElement("div");
+    userCardsContainer.innerHTML = "";
     userCardsContainer.classList.add("user-cards");
-    fetch("http://localhost:8085/all")
+    fetch(url)
       .then(response => response.json())
       .then(data => {
-        console.log("DATA");
-        const content = document.querySelector(".content");
-        const heading = document.createElement("h2");
-        heading.textContent = "All Users";
+        let heading = content.querySelector("h2");
+        if (!heading) {
+            heading = document.createElement("h2");
+            heading.textContent = "Users";
+            content.insertBefore(heading, content.firstChild);
+        }
         if (data.length > 0) {
-          console.log("DATA");
             content.insertBefore(heading, content.firstChild);
         }
         userCardsContainer.innerHTML = "";
         data.forEach(user => {
-          console.log("DATA");
           const card = document.createElement("div");
           card.classList.add("card");
           let cardColor;
@@ -63,9 +102,9 @@ viewUsersBtn.addEventListener("click", function() {
   
           const updateButton = document.createElement("button");
           updateButton.textContent = "Update";
-  
           updateButton.addEventListener("click", () => {
-            console.log(`Update button clicked for user: ${user.id}`);
+            fetchUserDetails(user.email);
+            console.log(`Update button clicked for user: ${user.email}`);
           });
   
           card.appendChild(userInfoList);
@@ -73,10 +112,70 @@ viewUsersBtn.addEventListener("click", function() {
   
           userCardsContainer.appendChild(card);
         });
+        content.appendChild(userCardsContainer);
+      })
+      .catch(error => console.error(error));
+}
+
+function fetchUserDetails(email) {
+  fetch("http://localhost:8085/user/"+email)
+      .then(response => response.json())
+      .then(user => {
+          showUpdateForm(user);
+      })
+      .catch(error => console.error(error));
+}
+
+function showUpdateForm(user) {
+  const content = document.querySelector(".content");
+  content.innerHTML = `
+    <h2>Update User</h2>
+    <form id="updateForm">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" value="${user.email}" readonly>
+      <br>
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" value="${user.firstName}" required>
+      <br>
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" value="${user.lastName}" required>
+      <br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" value = "${user.password}"required>
+      <br>
+      <button type="submit">Submit</button>
+    </form>
+  `;
+
+  const updateForm = document.getElementById("updateForm");
+  updateForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const email = document.getElementById("email").value;
+      const firstName = document.getElementById("firstName").value;
+      const lastName = document.getElementById("lastName").value;
+      const password = document.getElementById("password").value;
+
+      fetch(`http://localhost:8085/user/update`, {
+          method: "PUT",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+              email: email,
+              firstName: firstName,
+              lastName: lastName,
+              password: password,
+          })
+      })
+      .then(response => response.text())
+      .then(data => {
+          alert(data);
+          viewUsersBtn.click(); 
       })
       .catch(error => console.error(error));
   });
-  
+}
+
   const addProjectBtn = document.getElementById("addProjectBtn");
   addProjectBtn.addEventListener("click", function() {
     const content = document.querySelector(".content");

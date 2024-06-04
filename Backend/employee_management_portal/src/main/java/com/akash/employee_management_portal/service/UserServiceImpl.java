@@ -1,9 +1,6 @@
 package com.akash.employee_management_portal.service;
 
-import com.akash.employee_management_portal.dto.EmployeeProjectDTO;
-import com.akash.employee_management_portal.dto.EmployeeSkillDTO;
-import com.akash.employee_management_portal.dto.RegistrationRequest;
-import com.akash.employee_management_portal.dto.UpdateRequest;
+import com.akash.employee_management_portal.dto.*;
 import com.akash.employee_management_portal.entity.User;
 import com.akash.employee_management_portal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +18,8 @@ public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
 
     @Override
-    public User findById(String theId) {
-        return null;
+    public User findByEmail(String userEmail) {
+        return userRepository.findByEmail(userEmail);
     }
 
     @Override
@@ -58,6 +55,16 @@ public class UserServiceImpl implements UserService{
         );
         userRepository.save(user);
 return ResponseEntity.ok("User Registered Successfully");
+    }
+
+    @Override
+    public ResponseEntity<String> updateUser(RegistrationRequest updateRequest) {
+        User user = userRepository.findByEmail(updateRequest.getEmail());
+        user.setFirstName(updateRequest.getFirstName());
+        user.setLastName(updateRequest.getLastName());
+        user.setPassword(updateRequest.getPassword());
+        userRepository.save(user);
+        return ResponseEntity.ok("User Details Updated");
     }
 
     @Override
