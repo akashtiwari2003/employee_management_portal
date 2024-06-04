@@ -9,24 +9,32 @@ document.addEventListener("DOMContentLoaded", function() {
 
 const addBtn = document.getElementById("addUser");
 addBtn.addEventListener("click", function() {
+    const content = document.querySelector(".content");
+    content.innerHTML = "";
     window.location.href = "addEmployeeManager.html";
 });
 
 const viewUsersBtn = document.getElementById("viewUsersBtn");
-const userCardsContainer = document.querySelector(".user-cards");
-
 viewUsersBtn.addEventListener("click", function() {
+    const content = document.querySelector(".content");
+    content.innerHTML = "";
+    const userCardsContainer = document.createElement("div");
+    content.appendChild(userCardsContainer);
+    userCardsContainer.classList.add("user-cards");
     fetch("http://localhost:8085/all")
       .then(response => response.json())
       .then(data => {
+        console.log("DATA");
         const content = document.querySelector(".content");
         const heading = document.createElement("h2");
         heading.textContent = "All Users";
         if (data.length > 0) {
+          console.log("DATA");
             content.insertBefore(heading, content.firstChild);
         }
         userCardsContainer.innerHTML = "";
         data.forEach(user => {
+          console.log("DATA");
           const card = document.createElement("div");
           card.classList.add("card");
           let cardColor;
@@ -72,6 +80,7 @@ viewUsersBtn.addEventListener("click", function() {
   const addProjectBtn = document.getElementById("addProjectBtn");
   addProjectBtn.addEventListener("click", function() {
     const content = document.querySelector(".content");
+    content.innerHTML = "";
     content.innerHTML = `
       <h2>Add New Project</h2>
       <form id="projectForm">
@@ -108,4 +117,98 @@ viewUsersBtn.addEventListener("click", function() {
       })
       .catch(error => console.error(error));
     });
+  });
+
+  const viewEmployeeBtn = document.getElementById("viewEmployeeBtn");
+  viewEmployeeBtn.addEventListener("click", function() {
+    const content = document.querySelector(".content");
+    content.innerHTML = "";
+      fetch("http://localhost:8085/employeesproject")
+          .then(response => response.json())
+          .then(data => {
+              const content = document.querySelector(".content");
+              content.innerHTML = `
+                  <h2>All Employees and Assigned Projects</h2>
+                  <table id="employeeTable">
+                      <thead>
+                          <tr>
+                              <th>ID</th>
+                              <th>Project ID</th>
+                              <th>Action</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                  </table>
+              `;
+  
+              const employeeTableBody = document.querySelector("#employeeTable tbody");
+              data.forEach(employee => {
+                  const row = document.createElement("tr");
+  
+                  row.innerHTML = `
+                      <td>${employee.employeeEmail}</td>
+                      <td>${employee.projectId == 0?"Not Assigned":employee.projectId}</td>
+                  `;
+  
+                  const actionCell = document.createElement("td");
+                  const actionButton = document.createElement("button");
+                  if (employee.projectId === 0) {
+                      actionButton.textContent = "Assign";
+                  } else {
+                      actionButton.textContent = "Unassign";
+                  }
+  
+                  actionButton.addEventListener("click", () => {
+                      if (employee.projectId === 0) {
+                          console.log(`Assign button clicked for employee: ${employee.id}`);
+                      } else {
+                          console.log(`Unassign button clicked for employee: ${employee.id}`);
+                      }
+                  });
+  
+                  actionCell.appendChild(actionButton);
+                  row.appendChild(actionCell);
+                  employeeTableBody.appendChild(row);
+              });
+          })
+          .catch(error => console.error(error));
+  });
+
+  const viewProjectsBtn = document.getElementById("viewProjectsBtn");
+  viewProjectsBtn.addEventListener("click", function() {
+      const content = document.querySelector(".content");
+      content.innerHTML = "";
+      fetch("http://localhost:8085/projects/all")
+          .then(response => response.json())
+          .then(data => {
+              content.innerHTML = `
+                  <h2>All Projects</h2>
+                  <table id="projectsTable">
+                      <thead>
+                          <tr>
+                              <th>ID</th>
+                              <th>Name</th>
+                              <th>Description</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                  </table>
+              `;
+    
+              const projectsTableBody = document.querySelector("#projectsTable tbody");
+    
+              data.forEach(project => {
+                  const row = document.createElement("tr");
+                  row.innerHTML = `
+                      <td>${project.projectId}</td>
+                      <td>${project.projectName}</td>
+                      <td>${project.projectDesc}</td>
+                  `;
+    
+                  projectsTableBody.appendChild(row);
+              });
+          })
+          .catch(error => console.error(error));
   });
