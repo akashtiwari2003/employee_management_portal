@@ -2,7 +2,12 @@ package com.akash.employee_management_portal.dto;
 
 public class EmployeeProjectDTO {
     private String employeeEmail;
-    private int projectId;
+    private long projectId;
+
+    public EmployeeProjectDTO(String employeeEmail, long projectId) {
+        this.employeeEmail = employeeEmail;
+        this.projectId = projectId;
+    }
 
     public String getEmployeeEmail() {
         return employeeEmail;
@@ -12,11 +17,11 @@ public class EmployeeProjectDTO {
         this.employeeEmail = employeeEmail;
     }
 
-    public int getProjectId() {
+    public long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(int projectId) {
+    public void setProjectId(long projectId) {
         this.projectId = projectId;
     }
 }
