@@ -102,9 +102,9 @@ viewUsersBtn.addEventListener("click", function() {
   
           const updateButton = document.createElement("button");
           updateButton.textContent = "Update";
-  
           updateButton.addEventListener("click", () => {
-            console.log(`Update button clicked for user: ${user.id}`);
+            fetchUserDetails(user.email);
+            console.log(`Update button clicked for user: ${user.email}`);
           });
   
           card.appendChild(userInfoList);
@@ -115,6 +115,65 @@ viewUsersBtn.addEventListener("click", function() {
         content.appendChild(userCardsContainer);
       })
       .catch(error => console.error(error));
+}
+
+function fetchUserDetails(email) {
+  fetch("http://localhost:8085/user/"+email)
+      .then(response => response.json())
+      .then(user => {
+          showUpdateForm(user);
+      })
+      .catch(error => console.error(error));
+}
+
+function showUpdateForm(user) {
+  const content = document.querySelector(".content");
+  content.innerHTML = `
+    <h2>Update User</h2>
+    <form id="updateForm">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" value="${user.email}" readonly>
+      <br>
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" value="${user.firstName}" required>
+      <br>
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" value="${user.lastName}" required>
+      <br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" value = "${user.password}"required>
+      <br>
+      <button type="submit">Submit</button>
+    </form>
+  `;
+
+  const updateForm = document.getElementById("updateForm");
+  updateForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const email = document.getElementById("email").value;
+      const firstName = document.getElementById("firstName").value;
+      const lastName = document.getElementById("lastName").value;
+      const password = document.getElementById("password").value;
+
+      fetch(`http://localhost:8085/user/update`, {
+          method: "PUT",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+              email: email,
+              firstName: firstName,
+              lastName: lastName,
+              password: password,
+          })
+      })
+      .then(response => response.text())
+      .then(data => {
+          alert(data);
+          viewUsersBtn.click(); 
+      })
+      .catch(error => console.error(error));
+  });
 }
 
   const addProjectBtn = document.getElementById("addProjectBtn");
