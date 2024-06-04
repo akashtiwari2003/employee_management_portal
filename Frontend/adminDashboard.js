@@ -69,3 +69,43 @@ viewUsersBtn.addEventListener("click", function() {
       .catch(error => console.error(error));
   });
   
+  const addProjectBtn = document.getElementById("addProjectBtn");
+  addProjectBtn.addEventListener("click", function() {
+    const content = document.querySelector(".content");
+    content.innerHTML = `
+      <h2>Add New Project</h2>
+      <form id="projectForm">
+        <label for="projectName">Project Name:</label>
+        <input type="text" id="projectName" name="projectName" required>
+        <br>
+        <label for="projectDescription">Project Description:</label>
+        <textarea id="projectDescription" name="projectDescription" required></textarea>
+        <br>
+        <button type="submit">Submit</button>
+      </form>
+    `;
+  
+    const projectForm = document.getElementById("projectForm");
+    projectForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const projectName = document.getElementById("projectName").value;
+      const projectDescription = document.getElementById("projectDescription").value;
+  
+      fetch("http://localhost:8085/projects/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          projectName: projectName,
+          projectDesc: projectDescription
+        })
+      })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        projectForm.reset();
+      })
+      .catch(error => console.error(error));
+    });
+  });

@@ -24,6 +24,7 @@ public class ProjectServiceImpl implements ProjectService{
     public ResponseEntity<String> createProject(ProjectDTO projectDTO) {
         Project project = new Project(projectDTO.getProjectName(), projectDTO.getProjectDesc());
         projectRepository.save(project);
-        return ResponseEntity.ok("Project Created");
+        Project createdProject = projectRepository.findByProjectName(project.getProjectName());
+        return ResponseEntity.ok("Project Created with ID : " + createdProject.getProjectId());
     }
 }
