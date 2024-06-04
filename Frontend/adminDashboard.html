@@ -1,30 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="adminDashboard.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="adminDashboard.css">
 </head>
 <body>
-    <div class="header">
-        <div class="welcome" id="welcomeMessage">Welcome User!!</div>
-        <h1>Admin Panel</h1>
+  <div class="container">
+    <div class="sidebar">
+      <h2 id = "welcomeMessage">Welcome</h2>
+      <h1>Admin Panel</h1>
+      <div class="buttons">
+        <button id = "viewUsersBtn">View Users</button>
+        <button>View Employees and Projects</button>
+        <button id = "addUser">Add New User</button>
+        <button>Add Project</button>
+      </div>
     </div>
-    <div class="container">
-        <div class="card">
-            <h2>Add Employee/Manager</h2>
-        </div>
-        <div class="card">
-            <h2>View Employee and Projects</h2>
-        </div>
-        <div class="card">
-            <h2>Assign/Unassign Project</h2>
-        </div>
-        <div class="card">
-            <h2>Approve/Reject Resources</h2>
-        </div>
+    <div class="content">
+        <div class="user-cards"></div>
     </div>
-    <script src="adminDashboard.js"></script>
+  </div>
+  <script src="adminDashboard.js"></script>
 </body>
 </html>
