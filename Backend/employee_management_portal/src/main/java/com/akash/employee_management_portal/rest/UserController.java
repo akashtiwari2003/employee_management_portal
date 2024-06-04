@@ -71,6 +71,39 @@ public class UserController {
     @GetMapping("/employeesproject")
     List<EmployeeProjectDTO> getEmployeesAndProjects(){
         return userService.getEmployeesAndProjects();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 }
