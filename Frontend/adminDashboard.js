@@ -260,8 +260,10 @@ function showUpdateForm(user) {
   
                   actionButton.addEventListener("click", () => {
                       if (employee.projectId === 0) {
+                        showProjectDropdown(employee.employeeEmail);
                           console.log(`Assign button clicked for employee: ${employee.id}`);
                       } else {
+                        unassignProject(employee.employeeEmail);
                           console.log(`Unassign button clicked for employee: ${employee.id}`);
                       }
                   });
@@ -273,6 +275,73 @@ function showUpdateForm(user) {
           })
           .catch(error => console.error(error));
   });
+
+  function showProjectDropdown(employeeEmail) {
+    fetch("http://localhost:8085/projects/all")
+      .then(response => response.json())
+      .then(projects => {
+        const content = document.querySelector(".content");
+        const dropdownContainer = document.createElement("div");
+        const projectDropdown = document.createElement("select");
+        const assignButton = document.createElement("button");
+  
+        projectDropdown.id = "projectDropdown";
+        projects.forEach(project => {
+          const option = document.createElement("option");
+          option.value = project.projectId;
+          option.textContent = project.projectName;
+          projectDropdown.appendChild(option);
+        });
+  
+        assignButton.textContent = "Assign Project";
+        assignButton.addEventListener("click", () => {
+          const selectedProjectId = projectDropdown.value;
+          assignProjectToEmployee(employeeEmail, selectedProjectId);
+        });
+  
+        dropdownContainer.appendChild(projectDropdown);
+        dropdownContainer.appendChild(assignButton);
+        content.appendChild(dropdownContainer);
+      })
+      .catch(error => console.error(error));
+  }
+  
+  function assignProjectToEmployee(employeeEmail, projectId) {
+    fetch(`http://localhost:8085/employee/assignemployee`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        employeeEmail: employeeEmail,
+        projectId: projectId
+      })
+    })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        viewEmployeeBtn.click();
+      })
+      .catch(error => console.error(error));
+  }
+
+  function unassignProject(employeeEmail) {
+    fetch("http://localhost:8085/employee/unassign/"+employeeEmail, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        employeeEmail: employeeEmail
+      })
+    })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        viewEmployeeBtn.click(); // Refresh the employee view
+      })
+      .catch(error => console.error(error));
+  }
 
   const viewProjectsBtn = document.getElementById("viewProjectsBtn");
   viewProjectsBtn.addEventListener("click", function() {
