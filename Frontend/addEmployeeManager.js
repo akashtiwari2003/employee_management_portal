@@ -7,9 +7,6 @@ document.getElementById('registrationForm').addEventListener('submit', async fun
     const password = document.getElementById('password').value;
     const accountType = document.getElementById('accountType').value;
 
-    // Perform validation if needed
-
-    // Example of sending data to backend using fetch
     try {
         const response = await fetch('http://localhost:8085/register', {
             method: 'POST',
