@@ -1,11 +1,14 @@
 package com.akash.employee_management_portal.service;
 
+import com.akash.employee_management_portal.dto.AvailableProjectDTO;
 import com.akash.employee_management_portal.dto.ManagerProjectDTO;
 import com.akash.employee_management_portal.entity.ManagerProject;
 import com.akash.employee_management_portal.repository.ManagerProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ManagerProjectServiceImpl implements ManagerProjectService{
@@ -25,5 +28,10 @@ public class ManagerProjectServiceImpl implements ManagerProjectService{
         ManagerProject managerProject = managerProjectRepository.findByManagerEmail(managerEmail);
         managerProjectRepository.delete(managerProject);
         return ResponseEntity.ok("Project Unassigned from Manager");
+    }
+
+    @Override
+    public List<AvailableProjectDTO> findProjectsNotManaged() {
+        return managerProjectRepository.findProjectsNotManaged();
     }
 }

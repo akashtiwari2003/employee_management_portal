@@ -10,5 +10,5 @@ import java.util.List;
 public interface ProjectService {
     List<Project> findAll();
     ResponseEntity<String> createProject(ProjectDTO projectDTO);
-
+    ResponseEntity<String> removeProject(long projectId);
 }

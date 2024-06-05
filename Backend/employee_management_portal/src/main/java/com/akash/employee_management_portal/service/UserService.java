@@ -17,4 +17,5 @@ public interface UserService {
     List<EmployeeSkillDTO> findEmployeeSkills();
     List<EmployeeSkillDTO> filterEmployeeWithSkills(String skill);
     List<EmployeeProjectDTO> getEmployeesAndProjects();
+    List<ManagerProjectDTO> getManagersAndProjects();
 }

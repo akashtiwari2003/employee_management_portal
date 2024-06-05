@@ -25,4 +25,9 @@ public class ProjectController {
     public ResponseEntity<String> createProject(@RequestBody ProjectDTO projectDTO) {
         return projectService.createProject(projectDTO);
     }
+
+    @DeleteMapping("remove/{projectId}")
+    public ResponseEntity<String> removeProject(@PathVariable("projectId") long projectId){
+        return projectService.removeProject(projectId);
+    }
 }

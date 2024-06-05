@@ -79,39 +79,11 @@ public class UserController {
     @GetMapping("/employeesproject")
     List<EmployeeProjectDTO> getEmployeesAndProjects(){
         return userService.getEmployeesAndProjects();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
+
+    @GetMapping("/managersproject")
+    List<ManagerProjectDTO> getManagersAndProjects() {
+        return userService.getManagersAndProjects();
+    };
 
 }

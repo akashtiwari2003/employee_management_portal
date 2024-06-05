@@ -97,5 +97,10 @@ return ResponseEntity.ok("User Registered Successfully");
         return userRepository.getEmployeesAndProjects();
     }
 
+    @Override
+    public List<ManagerProjectDTO> getManagersAndProjects() {
+        return userRepository.getManagersAndProjects();
+    }
+
 
 }
