@@ -343,40 +343,169 @@ function showUpdateForm(user) {
       .catch(error => console.error(error));
   }
 
-  const viewProjectsBtn = document.getElementById("viewProjectsBtn");
-  viewProjectsBtn.addEventListener("click", function() {
-      const content = document.querySelector(".content");
-      content.innerHTML = "";
-      fetch("http://localhost:8085/projects/all")
+
+  const viewManagerBtn = document.getElementById("viewManagerBtn");
+  viewManagerBtn.addEventListener("click", function() {
+    const content = document.querySelector(".content");
+    content.innerHTML = "";
+      fetch("http://localhost:8085/managersproject")
           .then(response => response.json())
           .then(data => {
+              const content = document.querySelector(".content");
               content.innerHTML = `
-                  <h2>All Projects</h2>
-                  <table id="projectsTable">
+                  <h2>All Managers and Assigned Projects</h2>
+                  <table id="managerTable">
                       <thead>
                           <tr>
                               <th>ID</th>
-                              <th>Name</th>
-                              <th>Description</th>
+                              <th>Project ID</th>
+                              <th>Action</th>
                           </tr>
                       </thead>
                       <tbody>
                       </tbody>
                   </table>
               `;
-    
-              const projectsTableBody = document.querySelector("#projectsTable tbody");
-    
-              data.forEach(project => {
+  
+              const managerTableBody = document.querySelector("#managerTable tbody");
+              data.forEach(manager => {
                   const row = document.createElement("tr");
+  
                   row.innerHTML = `
-                      <td>${project.projectId}</td>
-                      <td>${project.projectName}</td>
-                      <td>${project.projectDesc}</td>
+                      <td>${manager.managerEmail}</td>
+                      <td>${manager.projectId == 0?"Not Assigned":manager.projectId}</td>
                   `;
-    
-                  projectsTableBody.appendChild(row);
+  
+                  const actionCell = document.createElement("td");
+                  const actionButton = document.createElement("button");
+                  if (manager.projectId === 0) {
+                      actionButton.textContent = "Assign";
+                  } else {
+                      actionButton.textContent = "Unassign";
+                  }
+  
+                  actionButton.addEventListener("click", () => {
+                      if (manager.projectId === 0) {
+                        showManagerProjectDropdown(manager.managerEmail);
+                          console.log(`Assign button clicked for manager: ${manager.projectId}`);
+                      } else {
+                        unassignProject(manager.managerEmail);
+                          console.log(`Unassign button clicked for employee: ${manager.projectId}`);
+                      }
+                  });
+  
+                  actionCell.appendChild(actionButton);
+                  row.appendChild(actionCell);
+                  managerTableBody.appendChild(row);
               });
           })
           .catch(error => console.error(error));
   });
+
+  function showManagerProjectDropdown(managerEmail) {
+    fetch("http://localhost:8085/assignmanagerprojects")
+      .then(response => response.json())
+      .then(projects => {
+        const content = document.querySelector(".content");
+        const dropdownContainer = document.createElement("div");
+        const projectDropdown = document.createElement("select");
+        const assignButton = document.createElement("button");
+  
+        projectDropdown.id = "projectDropdown";
+        projects.forEach(project => {
+          const option = document.createElement("option");
+          option.value = project.projectId;
+          option.textContent = project.projectName;
+          projectDropdown.appendChild(option);
+        });
+  
+        assignButton.textContent = "Assign Project";
+        assignButton.addEventListener("click", () => {
+          const selectedProjectId = projectDropdown.value;
+          assignProjectToManager(managerEmail, selectedProjectId);
+        });
+  
+        dropdownContainer.appendChild(projectDropdown);
+        dropdownContainer.appendChild(assignButton);
+        content.appendChild(dropdownContainer);
+      })
+      .catch(error => console.error(error));
+  }
+
+  function assignProjectToManager(managerEmail, projectId) {
+    fetch(`http://localhost:8085/assignmanager`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        managerEmail: managerEmail,
+        projectId: projectId
+      })
+    })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        viewManagerBtn.click();
+      })
+      .catch(error => console.error(error));
+  }
+
+  const viewProjectsBtn = document.getElementById("viewProjectsBtn");
+viewProjectsBtn.addEventListener("click", function() {
+    const content = document.querySelector(".content");
+    content.innerHTML = "";
+    fetch("http://localhost:8085/projects/all")
+        .then(response => response.json())
+        .then(data => {
+            content.innerHTML = `
+                <h2>All Projects</h2>
+                <table id="projectsTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            `;
+
+            const projectsTableBody = document.querySelector("#projectsTable tbody");
+
+            data.forEach(project => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${project.projectId}</td>
+                    <td>${project.projectName}</td>
+                    <td>${project.projectDesc}</td>
+                    <td><button class="removeProjectBtn" data-id="${project.projectId}">Remove</button></td>
+                `;
+
+                projectsTableBody.appendChild(row);
+            });
+
+            // Add event listeners to all "Remove" buttons
+            const removeProjectBtns = document.querySelectorAll(".removeProjectBtn");
+            removeProjectBtns.forEach(button => {
+                button.addEventListener("click", function() {
+                    const projectId = this.getAttribute("data-id");
+                    fetch(`http://localhost:8085/projects/remove/${projectId}`, {
+                        method: "DELETE"
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            this.closest("tr").remove();
+                        } else {
+                            console.error("Failed to delete the project.");
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+                });
+            });
+        })
+        .catch(error => console.error(error));
+});
