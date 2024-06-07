@@ -77,4 +77,12 @@ public class User {
     public void setType(String type) {
         this.type = type;
     }
+
+    public Set<EmployeeSkill> getEmployeeSkill() {
+        return employeeSkill;
+    }
+
+    public void setEmployeeSkill(Set<EmployeeSkill> employeeSkill) {
+        this.employeeSkill = employeeSkill;
+    }
 }
