@@ -6,6 +6,7 @@ import com.akash.employee_management_portal.entity.User;
 import com.akash.employee_management_portal.service.ProjectService;
 import com.akash.employee_management_portal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -85,5 +86,10 @@ public class UserController {
     List<ManagerProjectDTO> getManagersAndProjects() {
         return userService.getManagersAndProjects();
     };
+
+    @GetMapping("/employeeandskills/{email}")
+    List<EmployeeSkillDTO> findEmployeeAndSkills(@PathVariable("email") String email){
+        return userService.findEmployeeAndSkills(email);
+    }
 
 }

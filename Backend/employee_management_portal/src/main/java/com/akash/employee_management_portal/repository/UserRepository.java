@@ -6,6 +6,7 @@ import com.akash.employee_management_portal.dto.ManagerProjectDTO;
 import com.akash.employee_management_portal.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -21,6 +22,13 @@ public interface UserRepository extends JpaRepository<User, String> {
             "INNER JOIN Skill s ON s.Id = es.skillId " +
             "WHERE u.type = 'EMPLOYEE'")
     List<EmployeeSkillDTO> findEmployeeSkills();
+
+    @Query("SELECT new com.akash.employee_management_portal.dto.EmployeeSkillDTO(u.firstName, s.skillName) " +
+            "FROM User u " +
+            "INNER JOIN EmployeeSkill es ON u.email = es.employeeEmail " +
+            "INNER JOIN Skill s ON s.Id = es.skillId " +
+            "WHERE u.type = 'EMPLOYEE' AND u.email = :email")
+    List<EmployeeSkillDTO> findEmployeeAndSkills(@Param("email") String email);
 
     @Query("SELECT new com.akash.employee_management_portal.dto.EmployeeSkillDTO(u.firstName, s.skillName) " +
             "FROM User u " +

@@ -14,12 +14,20 @@
       <div class="buttons">
         <button id = "viewInfoBtn">My Projects</button>
         <button id = "viewEmployeeBtn">View Employees</button>
-        <button id = "viewProjectsBtn">View Managers</button>
-        <button id = "addUser">Update Skills</button>
+        <button id = "viewManagerBtn">View Managers</button>
+        <button id = "updateSkills">Update Skills</button>
         </div>
     </div>
     <div class="content">
       <div id="employeeTableContainer"></div>
+      <div id="updateSkillsModal" style="display:none;">
+        <h2>Update Skills</h2>
+        <form id="skillsForm">
+            <div id="skillsCheckboxes"></div>
+            <button type="button" id="saveSkillsBtn">Save</button>
+        </form>
+    </div>
+    
     </div>
   </div>
   <script src="employeeDashboard.js"></script>

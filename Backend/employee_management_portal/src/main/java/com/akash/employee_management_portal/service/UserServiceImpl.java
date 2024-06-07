@@ -35,17 +35,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public ResponseEntity<String> registerUser(RegistrationRequest registrationRequest) {
-//        Worker worker = new Worker(registrationRequest.getEmail(),
-//                registrationRequest.getFirstName(),
-//                registrationRequest.getLastName(),
-//                registrationRequest.getPassword(),
-//                registrationRequest.getType());
-//        workerRepository.save(worker);
-//
-//        User user = new User(registrationRequest.getEmail(),
-//                registrationRequest.getPassword(),
-//                registrationRequest.getType());
-//        userRepository.save(user);
         User user = new User(
                 registrationRequest.getEmail(),
                 registrationRequest.getFirstName(),
@@ -100,6 +89,11 @@ return ResponseEntity.ok("User Registered Successfully");
     @Override
     public List<ManagerProjectDTO> getManagersAndProjects() {
         return userRepository.getManagersAndProjects();
+    }
+
+    @Override
+    public List<EmployeeSkillDTO> findEmployeeAndSkills(String email) {
+        return userRepository.findEmployeeAndSkills(email);
     }
 
 

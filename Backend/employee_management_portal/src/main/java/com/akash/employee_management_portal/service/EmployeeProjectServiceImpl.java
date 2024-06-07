@@ -51,7 +51,7 @@ public class EmployeeProjectServiceImpl implements EmployeeProjectService{
             return ResponseEntity.ok(projectDetails);
         }
         else {
-         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+         return ResponseEntity.ok(null);
         }
     }
 

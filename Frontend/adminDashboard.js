@@ -488,7 +488,6 @@ viewProjectsBtn.addEventListener("click", function() {
                 projectsTableBody.appendChild(row);
             });
 
-            // Add event listeners to all "Remove" buttons
             const removeProjectBtns = document.querySelectorAll(".removeProjectBtn");
             removeProjectBtns.forEach(button => {
                 button.addEventListener("click", function() {

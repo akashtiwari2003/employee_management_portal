@@ -2,6 +2,7 @@ package com.akash.employee_management_portal.service;
 
 import com.akash.employee_management_portal.dto.*;
 import com.akash.employee_management_portal.entity.User;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -18,4 +19,5 @@ public interface UserService {
     List<EmployeeSkillDTO> filterEmployeeWithSkills(String skill);
     List<EmployeeProjectDTO> getEmployeesAndProjects();
     List<ManagerProjectDTO> getManagersAndProjects();
+    List<EmployeeSkillDTO> findEmployeeAndSkills(String email);
 }
