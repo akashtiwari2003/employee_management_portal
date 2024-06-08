@@ -222,15 +222,108 @@ function displayProjectTable(data) {
           const actionsCell = document.createElement("td");
           const updateButton = document.createElement("button");
           updateButton.textContent = "Update";
-          updateButton.addEventListener("click", () => updateSkills(localStorage.getItem('username')));
+          updateButton.addEventListener("click", () => fetchAvailableSkills(data));
           actionsCell.appendChild(updateButton);
           row.appendChild(actionsCell);
-  
           skillsTableBody.appendChild(row);
       });
   }
+
+  async function fetchAvailableSkills(data) {
+    try {
+        const response = await fetch('http://localhost:8085/skills');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const skills = await response.json();
+        displayAvailableSkills(skills,data);
+    } catch (error) {
+        alert("An unexpected error occured");
+        console.error('There was a problem with the fetch operation:', error);
+    }
+}
+
+  function displayAvailableSkills(skills,data) {
+    const content = document.querySelector(".content");
+    content.innerHTML = `
+        <h2>Available Skills</h2>
+        <table id="availableSkillsTable">
+            <thead>
+                <tr>
+                    <th>Skill ID</th>
+                    <th>Skill Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    `;
+
+    const availableSkillsTableBody = document.querySelector("#availableSkillsTable tbody");
+
+    skills.forEach(skill => {
+      console.log(skill.id);
+      console.log(skill.skillName);
+        const row = document.createElement("tr");
+
+        const skillIdCell = document.createElement("td");
+        skillIdCell.textContent = skill.id;
+        row.appendChild(skillIdCell);
+
+        const skillNameCell = document.createElement("td");
+        skillNameCell.textContent = skill.skillName;
+        row.appendChild(skillNameCell);
+
+        const actionButton = document.createElement("button");
+        const isSkillInUserSkills = data.some(empSkill => empSkill.skillName === skill.skillName);
+
+        actionButton.textContent = isSkillInUserSkills ? "Remove" : "Add";
+        actionButton.addEventListener("click", async function() {
+          if(actionButton.textContent == "Add"){
+            try {
+              const response = await fetch('http://localhost:8085/addskill', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    employeeEmail: localStorage.getItem('username'),
+                    skillName: skill.skillName
+                })
+              });
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                fetchSkillsData(); 
+            } catch (error) {
+              console.error('There was a problem with the fetch operation:', error);
+            }
+          }
+          else{
+            try {
+              const response = await fetch('http://localhost:8085/removeskill', {
+                  method: 'DELETE',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                      employeeEmail: localStorage.getItem('username'),
+                      skillId: skill.id
+                  })
+              });
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              fetchSkillsData();
+          } catch (error) {
+              console.error('There was a problem with the fetch operation:', error);
+          }
+          }
+        });
+        row.appendChild(actionButton);
+        availableSkillsTableBody.appendChild(row);
+    });
+}
   
-  function updateSkills(username) {
-    
-    console.log(`Updating skills for ${username}`);
-  }
+ 
