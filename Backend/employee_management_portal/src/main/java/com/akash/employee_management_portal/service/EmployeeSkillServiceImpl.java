@@ -27,4 +27,9 @@ public class EmployeeSkillServiceImpl implements EmployeeSkillService{
         employeeSkillRepository.save(employeeSkill);
         return ResponseEntity.ok("Skill Added Successfully");
     }
+
+    @Override
+    public void deleteById(EmployeeSkillCompositeKey employeeSkillCompositeKey) {
+        employeeSkillRepository.deleteById(employeeSkillCompositeKey);
+    }
 }

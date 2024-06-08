@@ -39,7 +39,7 @@ public class UserController {
 
     @DeleteMapping("/delete/{email}")
     public void deleteEmployee(@PathVariable("email") String email) {
-        userService.deleteEmployeeByEmail(email );
+        userService.deleteEmployeeByEmail(email);
     }
 
     @GetMapping("/employee")

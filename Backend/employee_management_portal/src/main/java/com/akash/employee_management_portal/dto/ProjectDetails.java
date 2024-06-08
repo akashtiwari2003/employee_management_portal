@@ -1,22 +1,20 @@
 package com.akash.employee_management_portal.dto;
 
-import com.akash.employee_management_portal.entity.Project;
-
 public class ProjectDetails {
     private String employeeEmail;
     private long projectId;
     private String managerEmail;
-    private String projectnName;
+    private String projectName;
     private String projectDesc;
 
     public ProjectDetails() {
     }
 
-    public ProjectDetails(String employeeEmail, long projectId, String managerEmail, String projectnName, String projectDesc) {
+    public ProjectDetails(String employeeEmail, long projectId, String managerEmail, String projectName, String projectDesc) {
         this.employeeEmail = employeeEmail;
         this.projectId = projectId;
         this.managerEmail = managerEmail;
-        this.projectnName = projectnName;
+        this.projectName = projectName;
         this.projectDesc = projectDesc;
     }
 
@@ -44,12 +42,12 @@ public class ProjectDetails {
         this.managerEmail = managerEmail;
     }
 
-    public String getProjectnName() {
-        return projectnName;
+    public String getProjectName() {
+        return projectName;
     }
 
-    public void setProjectnName(String projectnName) {
-        this.projectnName = projectnName;
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
     public String getProjectDesc() {

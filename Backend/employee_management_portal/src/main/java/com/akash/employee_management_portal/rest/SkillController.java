@@ -1,7 +1,7 @@
 package com.akash.employee_management_portal.rest;
 
+import com.akash.employee_management_portal.dto.SkillDTO;
 import com.akash.employee_management_portal.dto.SkillRequest;
-import com.akash.employee_management_portal.entity.Skill;
 import com.akash.employee_management_portal.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class SkillController {
     private SkillService skillService;
 
     @GetMapping("/skills")
-    public List<Skill> findAllSkills(){
+    public List<SkillDTO> findAllSkills(){
         return skillService.findAllSkills();
     }
 
