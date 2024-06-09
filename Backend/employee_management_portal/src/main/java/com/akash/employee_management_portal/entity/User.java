@@ -24,8 +24,8 @@ public class User {
     @Column(name = "type")
     private String type;
 
-    @OneToMany(mappedBy = "user")
-    private Set<EmployeeSkill> employeeSkill;
+//    @OneToMany(mappedBy = "user")
+//    private Set<EmployeeSkill> employeeSkill;
 
     public User() {
     }
@@ -78,11 +78,11 @@ public class User {
         this.type = type;
     }
 
-    public Set<EmployeeSkill> getEmployeeSkill() {
-        return employeeSkill;
-    }
-
-    public void setEmployeeSkill(Set<EmployeeSkill> employeeSkill) {
-        this.employeeSkill = employeeSkill;
-    }
+//    public Set<EmployeeSkill> getEmployeeSkill() {
+//        return employeeSkill;
+//    }
+//
+//    public void setEmployeeSkill(Set<EmployeeSkill> employeeSkill) {
+//        this.employeeSkill = employeeSkill;
+//    }
 }
