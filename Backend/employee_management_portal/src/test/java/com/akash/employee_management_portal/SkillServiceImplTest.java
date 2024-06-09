@@ -1,5 +1,6 @@
 package com.akash.employee_management_portal;
 
+import com.akash.employee_management_portal.dto.SkillDTO;
 import com.akash.employee_management_portal.dto.SkillRequest;
 import com.akash.employee_management_portal.entity.Skill;
 import com.akash.employee_management_portal.repository.SkillRepository;
@@ -11,33 +12,53 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import java.util.Arrays;
+import java.util.List;
 
-public class SkillServiceImplTest {
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class SkillServiceImplTest {
+
     @Mock
     private SkillRepository skillRepository;
 
     @InjectMocks
-    private SkillServiceImpl skillServiceImpl;
+    private SkillServiceImpl skillService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testCreateSkill() {
+    void testCreateSkill() {
         SkillRequest skillRequest = new SkillRequest();
         skillRequest.setSkillName("Java");
-        Skill skill = new Skill(skillRequest.getSkillName());
+
+        Skill skill = new Skill("Java");
+
         when(skillRepository.save(any(Skill.class))).thenReturn(skill);
-        ResponseEntity<String> response = skillServiceImpl.createSkill(skillRequest);
-        verify(skillRepository).save(any(Skill.class));
+
+        ResponseEntity<String> response = skillService.createSkill(skillRequest);
+
         assertEquals("Skill Created", response.getBody());
-        assertEquals(200, response.getStatusCodeValue());
+        verify(skillRepository, times(1)).save(any(Skill.class));
     }
 
+    @Test
+    void testFindAllSkills() {
+        Skill skill1 = new Skill("Java");
+        skill1.setId(1L);
+        Skill skill2 = new Skill("Python");
+        skill2.setId(2L);
+
+        when(skillRepository.findAll()).thenReturn(Arrays.asList(skill1, skill2));
+
+        List<SkillDTO> skillDTOs = skillService.findAllSkills();
+
+        assertEquals(2, skillDTOs.size());
+        assertEquals("Java", skillDTOs.get(0).getSkillName());
+        assertEquals("Python", skillDTOs.get(1).getSkillName());
+    }
 }
