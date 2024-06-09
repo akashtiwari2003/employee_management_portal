@@ -1,6 +1,4 @@
 package com.akash.employee_management_portal.entity;
-
-
 import com.akash.employee_management_portal.entity.compositekeys.EmployeeSkillCompositeKey;
 import jakarta.persistence.*;
 
@@ -17,19 +15,19 @@ public class EmployeeSkill {
     private long skillId;
 
     @ManyToOne
-    @JoinColumn(name = "employee_email", referencedColumnName = "email")
+    @JoinColumn(name = "employee_email", referencedColumnName = "email", insertable = false,updatable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "skill_id", referencedColumnName = "id")
+    @JoinColumn(name = "skill_id", referencedColumnName = "id", insertable = false,updatable = false)
     private Skill skill;
 
     public EmployeeSkill() {
     }
 
-    public EmployeeSkill(String employeeEmail, long skillId) {
-        this.employeeEmail = employeeEmail;
-        this.skillId = skillId;
+    public EmployeeSkill(EmployeeSkillCompositeKey employeeSkillCompositeKey) {
+        this.employeeEmail = employeeSkillCompositeKey.getEmployeeEmail();
+        this.skillId = employeeSkillCompositeKey.getSkillId();
     }
 
     public String getEmployeeEmail() {

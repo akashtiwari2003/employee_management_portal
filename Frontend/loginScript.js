@@ -18,23 +18,29 @@ document.getElementById('loginForm').addEventListener('submit', async function (
         let data;
         try {
             data = await response.json();
-            console.log(data);
+            console.log(data.type);
         } catch (error) {
-            // Handle JSON parsing error
             document.getElementById('error-message').textContent = 'Invalid response from server';
             return;
         }
 
         if (response.ok) {
-            // Handle successful login
+            localStorage.setItem('username', username);
+            localStorage.setItem('name',data.firstName)
             alert('Login successful!');
-            // Redirect to another page or do something else
+            if(data.type == "ADMIN"){
+                window.location.href = "adminDashboard.html";
+            }
+            else if(data.type == "MANAGER"){
+                window.location.href = "managerDashboard.html";
+            }
+            else if(data.type == "EMPLOYEE"){
+                window.location.href = "employeeDashboard.html";
+            }
         } else {
-            // Handle login failure
             document.getElementById('error-message').textContent = data.message || 'Login failed';
         }
     } catch (error) {
-        // Handle fetch error
         document.getElementById('error-message').textContent = 'An error occurred: ' + error.message;
     }
 });

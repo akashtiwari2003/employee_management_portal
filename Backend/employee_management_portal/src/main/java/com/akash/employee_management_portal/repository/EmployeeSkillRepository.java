@@ -5,4 +5,5 @@ import com.akash.employee_management_portal.entity.compositekeys.EmployeeSkillCo
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EmployeeSkillRepository extends JpaRepository<EmployeeSkill, EmployeeSkillCompositeKey> {
+    void deleteById(EmployeeSkillCompositeKey employeeSkillCompositeKey);
 }
