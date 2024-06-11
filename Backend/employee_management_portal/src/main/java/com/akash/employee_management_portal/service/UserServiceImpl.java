@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -77,7 +78,10 @@ return ResponseEntity.ok("User Registered Successfully");
     }
 
     @Override
-    public List<EmployeeSkillDTO> filterEmployeeWithSkills(String skill) {
+    public List<FilterEmployeeDTO> filterEmployeeWithSkills(String skill) {
+        if(Objects.equals(skill, "all")){
+            return  userRepository.allEmployeesWithSkills(skill);
+        }
         return userRepository.filterEmployeeWithSkills(skill);
     }
 

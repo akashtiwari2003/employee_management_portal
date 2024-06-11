@@ -96,7 +96,6 @@ function displayProjectTable(data) {
   row.insertCell().textContent = data.managerEmail;
   row.insertCell().textContent = data.projectName;
   row.insertCell().textContent = data.projectDesc;
-
   content.appendChild(table);
 }
 
@@ -105,7 +104,6 @@ async function fetchSkillsData() {
   try {
       const response = await fetch(`http://localhost:8085/employeeandskills/${localStorage.getItem("username")}`);
       if (!response.ok) throw new Error('Network response was not ok');
-
       const data = await response.json();
       displaySkillsTable(data);
   } catch (error) {
@@ -117,6 +115,12 @@ function displaySkillsTable(data) {
   const content = document.querySelector(".content");
   const table = createTable(['Name', 'Skills', 'Actions']);
   const employeeMap = processEmployeeData(data);
+  if(data == ""){
+    const updateButton = document.createElement("button");
+      updateButton.textContent = "Update";
+      updateButton.addEventListener("click", () => fetchAvailableSkills(data));
+      content.appendChild(updateButton);
+  }
 
   employeeMap.forEach(({ firstName, skills }) => {
       const row = table.insertRow();
