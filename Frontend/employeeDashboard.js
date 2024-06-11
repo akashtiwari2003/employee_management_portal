@@ -8,6 +8,12 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("viewManagerBtn").addEventListener('click', fetchManagerData);
 });
 
+document.getElementById('logoutBtn').addEventListener('click', function() {
+  localStorage.removeItem("name");
+  localStorage.removeItem("username");
+  window.location.href = "login.html";
+});
+
 async function fetchEmployeeData() {
   clearContent();
   try {
