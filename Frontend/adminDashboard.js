@@ -7,6 +7,12 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+document.getElementById('logoutBtn').addEventListener('click', function() {
+  localStorage.removeItem("name");
+  localStorage.removeItem("username");
+  window.location.href = "login.html";
+});
+
 const addBtn = document.getElementById("addUser");
 addBtn.addEventListener("click", function() {
     const content = document.querySelector(".content");

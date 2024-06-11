@@ -4,6 +4,12 @@ document.addEventListener("DOMContentLoaded", function() {
   welcomeMessage.innerText = username ? `Welcome, ${username}!` : "Welcome, Guest!";
 });
 
+document.getElementById('logoutBtn').addEventListener('click', function() {
+  localStorage.removeItem("name");
+  localStorage.removeItem("username");
+  window.location.href = "login.html";
+});
+
 document.getElementById('viewManagerBtn').addEventListener('click', function() {
   const content = document.querySelector(".content");
   content.innerHTML = "";

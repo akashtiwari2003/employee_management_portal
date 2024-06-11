@@ -20,7 +20,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
             data = await response.json();
             console.log(data.type);
         } catch (error) {
-            document.getElementById('error-message').textContent = 'Invalid response from server';
+            document.getElementById('error-message').textContent = 'Invalid Credentials';
             return;
         }
 
