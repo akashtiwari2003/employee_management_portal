@@ -1,6 +1,7 @@
 package com.akash.employee_management_portal.dto;
 
 public class ResourceRequestDTO {
+    private long requestId;
     private String request;
     private String managerEmail;
     private long projectId;
@@ -14,6 +15,22 @@ public class ResourceRequestDTO {
         this.managerEmail = managerEmail;
         this.projectId = projectId;
         this.status = status;
+    }
+
+    public ResourceRequestDTO(long requestId, String request, String managerEmail, long projectId, String status) {
+        this.requestId = requestId;
+        this.request = request;
+        this.managerEmail = managerEmail;
+        this.projectId = projectId;
+        this.status = status;
+    }
+
+    public long getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(long requestId) {
+        this.requestId = requestId;
     }
 
     public String getRequest() {
