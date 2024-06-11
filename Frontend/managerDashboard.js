@@ -57,7 +57,11 @@ document.addEventListener("DOMContentLoaded", function() {
       const row = document.createElement('tr');
       keys.forEach(key => {
         const cell = document.createElement('td');
-        cell.textContent = item[key];
+        if (key === 'projectId' && item[key] == 0) {
+                cell.textContent = 'Not assigned';
+            } else {
+                cell.textContent = item[key];
+            }
         row.appendChild(cell);
       });
       tbody.appendChild(row);

@@ -254,8 +254,10 @@ function showUpdateForm(user) {
                   const actionButton = document.createElement("button");
                   if (employee.projectId === 0) {
                       actionButton.textContent = "Assign";
+                      actionButton.style.backgroundColor = 'green';
                   } else {
                       actionButton.textContent = "Unassign";
+                      actionButton.style.backgroundColor = 'red';
                   }
   
                   actionButton.addEventListener("click", () => {
@@ -380,8 +382,10 @@ function showUpdateForm(user) {
                   const actionButton = document.createElement("button");
                   if (manager.projectId === 0) {
                       actionButton.textContent = "Assign";
+                      actionButton.style.backgroundColor = 'green';
                   } else {
                       actionButton.textContent = "Unassign";
+                      actionButton.style.backgroundColor = 'red';
                   }
   
                   actionButton.addEventListener("click", () => {
@@ -482,7 +486,7 @@ viewProjectsBtn.addEventListener("click", function() {
                     <td>${project.projectId}</td>
                     <td>${project.projectName}</td>
                     <td>${project.projectDesc}</td>
-                    <td><button class="removeProjectBtn" data-id="${project.projectId}">Remove</button></td>
+                    <td><button class="removeProjectBtn" data-id="${project.projectId}" style="background-color:red">Remove</button></td>
                 `;
 
                 projectsTableBody.appendChild(row);
