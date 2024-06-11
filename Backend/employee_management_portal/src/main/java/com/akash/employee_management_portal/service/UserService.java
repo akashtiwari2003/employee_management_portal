@@ -16,7 +16,7 @@ public interface UserService {
     List<User> findByType(String type);
     List<User> findAll();
     List<EmployeeSkillDTO> findEmployeeSkills();
-    List<EmployeeSkillDTO> filterEmployeeWithSkills(String skill);
+    List<FilterEmployeeDTO> filterEmployeeWithSkills(String skill);
     List<EmployeeProjectDTO> getEmployeesAndProjects();
     List<ManagerProjectDTO> getManagersAndProjects();
     List<EmployeeSkillDTO> findEmployeeAndSkills(String email);
