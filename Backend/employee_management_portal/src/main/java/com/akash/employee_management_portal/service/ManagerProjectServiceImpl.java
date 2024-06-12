@@ -34,4 +34,9 @@ public class ManagerProjectServiceImpl implements ManagerProjectService{
     public List<AvailableProjectDTO> findProjectsNotManaged() {
         return managerProjectRepository.findProjectsNotManaged();
     }
+
+    @Override
+    public ManagerProject findByManagerEmail(String managerEmail) {
+        return managerProjectRepository.findByManagerEmail(managerEmail);
+    }
 }

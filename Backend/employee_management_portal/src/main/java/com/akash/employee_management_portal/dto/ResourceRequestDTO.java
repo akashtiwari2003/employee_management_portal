@@ -17,14 +17,6 @@ public class ResourceRequestDTO {
         this.status = status;
     }
 
-    public ResourceRequestDTO(long requestId, String request, String managerEmail, long projectId, String status) {
-        this.requestId = requestId;
-        this.request = request;
-        this.managerEmail = managerEmail;
-        this.projectId = projectId;
-        this.status = status;
-    }
-
     public long getRequestId() {
         return requestId;
     }

@@ -39,6 +39,7 @@ public class ResourceRequestServiceImpl implements ResourceRequestService{
     public ResponseEntity<String> rejectRequest(long requestId) {
         ResourceRequest resourceRequest = resourceRequestRepository.findById(requestId);
         resourceRequest.setStatus("REJECTED");
+        resourceRequestRepository.save(resourceRequest);
         return ResponseEntity.ok("Request Rejected");
     }
 

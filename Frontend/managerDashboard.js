@@ -31,6 +31,117 @@ document.getElementById('viewProjectsBtn').addEventListener('click', function() 
   fetchDataAndDisplayTable('http://localhost:8085/projects/all', ['Project ID', 'Project Name', 'Project Description'], ['projectId', 'projectName', 'projectDesc']);
 });
 
+document.getElementById('requestResourceBtn').addEventListener('click', function() {
+  const content = document.querySelector(".content");
+  content.innerHTML = "";
+
+  fetchDataAndDisplayRequestTable("http://localhost:8085/managers/" + localStorage.getItem('username'), ['Manager Email', 'Project ID'], ['managerEmail', 'projectId']);
+});
+
+function fetchDataAndDisplayRequestTable(url, headers, keys) {
+  const tableContainer = document.querySelector(".tableContainer") || document.createElement('div');
+  tableContainer.classList.add('tableContainer');
+  const content = document.querySelector(".content");
+  if (!document.querySelector(".tableContainer")) {
+    content.appendChild(tableContainer);
+  }
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      displayRequestTable(tableContainer, data, headers, keys);
+    })
+    .catch(error => console.error('Error fetching data:', error));
+}
+
+
+function displayRequestTable(container, item, headers, keys) {
+  container.innerHTML = '';
+
+  if (item.length === 0) {
+    alert("No data found.");
+    return;
+  }
+
+  const table = document.createElement('table');
+  table.classList.add('data-table');
+
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  
+  headers.forEach(headerText => {
+    const th = document.createElement('th');
+    th.textContent = headerText;
+    headerRow.appendChild(th);
+  });
+
+  const th = document.createElement('th');
+  th.textContent = 'Request Resource';
+  headerRow.appendChild(th);
+  
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+    const row = document.createElement('tr');
+    keys.forEach(key => {
+      const cell = document.createElement('td');
+      cell.textContent = item[key];
+      row.appendChild(cell);
+    });
+
+    const requestCell = document.createElement('td');
+    const requestButton = document.createElement('button');
+    requestButton.textContent = 'Request';
+    requestButton.addEventListener('click', function() {
+      if (!requestCell.querySelector('input')) {  // Check if input field is already present
+        const inputField = document.createElement('input');
+        inputField.type = 'text';
+        inputField.placeholder = 'Enter request details';
+        
+        const submitButton = document.createElement('button');
+        submitButton.textContent = 'Submit';
+        submitButton.addEventListener('click', function() {
+          if (!inputField.value) {
+            alert('Please enter request details');
+            return;
+          }
+          const requestData = {
+            request: inputField.value,
+            managerEmail: item['managerEmail'],
+            projectId:item['projectId'],
+            status: "REQUESTED"
+          };
+
+          fetch('http://localhost:8085/resource/request', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+          })
+          .then(response => response.text())
+          .then(responseText => {
+            alert(responseText);
+            inputField.remove();
+            submitButton.remove();
+          })
+          .catch(error => console.error('Error submitting request:', error));
+        });
+
+        requestCell.appendChild(inputField);
+        requestCell.appendChild(submitButton);
+      }
+    });
+
+    requestCell.appendChild(requestButton);
+    row.appendChild(requestCell);
+    tbody.appendChild(row);
+  table.appendChild(tbody);
+  container.appendChild(table);
+}
+
+
 function setupDropdownAndFetchData(dropdownUrl, dataUrl, headers, keys) {
   const dropdownContainer = document.createElement('div');
   dropdownContainer.classList.add('dropdownContainer');
