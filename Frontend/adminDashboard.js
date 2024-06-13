@@ -518,3 +518,105 @@ viewProjectsBtn.addEventListener("click", function() {
         })
         .catch(error => console.error(error));
 });
+
+const requestBtn = document.getElementById("requestBtn");
+  requestBtn.addEventListener("click", function() {
+    const content = document.querySelector(".content");
+    content.innerHTML = "";
+    fetch("http://localhost:8085/resource/requests/all")
+      .then(response => response.json())
+      .then(data => {
+        content.innerHTML = `
+          <h2>Approve/Reject Requests</h2>
+          <table id="requestsTable">
+            <thead>
+              <tr>
+                <th>Request ID</th>
+                <th>Request</th>
+                <th>Manager Email</th>
+                <th>Project ID</th>
+                <th>Status</th>
+                <th>Status Update</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        `;
+
+        const requestsTableBody = document.querySelector("#requestsTable tbody");
+
+        data.forEach(request => {
+          const row = document.createElement("tr");
+          let actionButtons = '';
+
+          if (request.status === "REQUESTED") {
+            actionButtons = `
+              <button class="approveBtn" data-id="${request.requestId}" style="background-color:green">Approve</button>
+              <button class="rejectBtn" data-id="${request.requestId}" style="background-color:red">Reject</button>
+            `;
+          } else {
+            actionButtons = `
+              <button class="deleteBtn" data-id="${request.requestId}" style="background-color:red">Delete</button>
+            `;
+          }
+
+          row.innerHTML = `
+            <td>${request.requestId}</td>
+            <td>${request.request}</td>
+            <td>${request.managerEmail}</td>
+            <td>${request.projectId}</td>
+            <td>${request.status}</td>
+            <td>${actionButtons}</td>
+          `;
+
+          requestsTableBody.appendChild(row);
+        });
+
+        document.querySelectorAll(".approveBtn").forEach(button => {
+          button.addEventListener("click", function() {
+            const requestId = this.getAttribute("data-id");
+            fetch(`http://localhost:8085/resource/request/approve/${requestId}`, { method: "PUT" })
+              .then(response => {
+                if (response.ok) {
+                  requestBtn.click();
+                } else {
+                  console.error("Failed to approve the request.");
+                }
+              })
+              .catch(error => console.error("Error:", error));
+          });
+        });
+
+        document.querySelectorAll(".rejectBtn").forEach(button => {
+          button.addEventListener("click", function() {
+            const requestId = this.getAttribute("data-id");
+            fetch(`http://localhost:8085/resource/request/reject/${requestId}`, { method: "PUT" })
+              .then(response => {
+                if (response.ok) {
+                  requestBtn.click();
+                } else {
+                  console.error("Failed to reject the request.");
+                }
+              })
+              .catch(error => console.error("Error:", error));
+          });
+        });
+
+        document.querySelectorAll(".deleteBtn").forEach(button => {
+          button.addEventListener("click", function() {
+            const requestId = this.getAttribute("data-id");
+            fetch(`http://localhost:8085/resource/request/delete/${requestId}`, { method: "DELETE" })
+              .then(response => {
+                if (response.ok) {
+                  this.closest("tr").remove();
+                } else {
+                  console.error("Failed to delete the request.");
+                }
+              })
+              .catch(error => console.error("Error:", error));
+          });
+        });
+      })
+      .catch(error => console.error(error));
+});

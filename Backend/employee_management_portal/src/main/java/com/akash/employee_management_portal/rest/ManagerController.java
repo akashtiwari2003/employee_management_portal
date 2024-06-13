@@ -2,6 +2,7 @@ package com.akash.employee_management_portal.rest;
 
 import com.akash.employee_management_portal.dto.AvailableProjectDTO;
 import com.akash.employee_management_portal.dto.ManagerProjectDTO;
+import com.akash.employee_management_portal.entity.ManagerProject;
 import com.akash.employee_management_portal.service.ManagerProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,5 +29,10 @@ public class ManagerController {
     @GetMapping("/assignmanagerprojects")
     List<AvailableProjectDTO> findProjectsNotManaged(){
         return managerProjectService.findProjectsNotManaged();
+    }
+
+    @GetMapping("managers/{email}")
+    public ManagerProject findByManagerEmail(@PathVariable("email") String managerEmail) {
+        return  managerProjectService.findByManagerEmail(managerEmail);
     }
 }
