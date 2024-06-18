@@ -83,12 +83,20 @@ async function fetchProjectData() {
   clearContent();
   try {
       const response = await fetch(`http://localhost:8085/employee/employeeproject/${localStorage.getItem("username")}`);
-      if (!response.ok) throw new Error('Project not assigned');
-
-      const data = await response.json();
-      displayProjectTable(data);
+      if (!response.ok) {
+        alert("An error occured");
+      }     
+      const texts = response.text();
+      if((await texts).length != 0){
+        const data = await response.json();
+        displayProjectTable(data);
+      } 
+      else{
+        alert("Project not asssigned");
+      }
+      
   } catch (error) {
-      handleError(error, "Project not Assigned");
+      handleError(error, "An error occured");
   }
 }
 
@@ -216,6 +224,7 @@ function createTable(headers) {
 }
 
 function handleError(error, customMessage) {
+  alert("An error occured while fetching data.")
   console.error('There was a problem with the fetch operation:', error);
   if (customMessage) alert(customMessage);
 }

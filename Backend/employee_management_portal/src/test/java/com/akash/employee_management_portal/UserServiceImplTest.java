@@ -163,14 +163,14 @@ class UserServiceImplTest {
     @Test
     void testFilterEmployeeWithSkills() {
         String skill = "Java";
-        EmployeeSkillDTO skillDTO = new EmployeeSkillDTO("Test", skill);
+        FilterEmployeeDTO skillDTO = new FilterEmployeeDTO("Test", 1, skill);
 
         when(userRepository.filterEmployeeWithSkills(skill)).thenReturn(List.of(skillDTO));
 
-        List<EmployeeSkillDTO> result = userService.filterEmployeeWithSkills(skill);
+        List<FilterEmployeeDTO> result = userService.filterEmployeeWithSkills(skill);
 
         assertEquals(1, result.size());
-        assertEquals("Test", result.get(0).getFirstName());
+        assertEquals("Test", result.get(0).getName());
         assertEquals(skill, result.get(0).getSkillName());
     }
 

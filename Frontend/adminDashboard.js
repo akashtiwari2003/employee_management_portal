@@ -581,6 +581,7 @@ const requestBtn = document.getElementById("requestBtn");
                 if (response.ok) {
                   requestBtn.click();
                 } else {
+                  alert("An unexpected error occured.");
                   console.error("Failed to approve the request.");
                 }
               })
@@ -596,6 +597,7 @@ const requestBtn = document.getElementById("requestBtn");
                 if (response.ok) {
                   requestBtn.click();
                 } else {
+                  alert("An unexpected error occured.");
                   console.error("Failed to reject the request.");
                 }
               })
@@ -609,14 +611,21 @@ const requestBtn = document.getElementById("requestBtn");
             fetch(`http://localhost:8085/resource/request/delete/${requestId}`, { method: "DELETE" })
               .then(response => {
                 if (response.ok) {
-                  this.closest("tr").remove();
+                  requestBtn.click();
                 } else {
+                  alert("An unexpected error occured.");
                   console.error("Failed to delete the request.");
                 }
               })
-              .catch(error => console.error("Error:", error));
+              .catch(error => {
+                console.error("Error:", error);
+                alert("An unexpected error occured.");
+              });
           });
         });
       })
-      .catch(error => console.error(error));
+      .catch(error => {
+        console.error("Error:", error);
+        alert("An unexpected error occured.");
+      });
 });
