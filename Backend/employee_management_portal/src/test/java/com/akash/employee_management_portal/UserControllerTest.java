@@ -68,7 +68,7 @@ class UserControllerTest {
         when(userService.registerUser(any(RegistrationRequest.class))).thenReturn(ResponseEntity.ok("User Registered Successfully"));
 
         mockMvc.perform(post("/register")
-                .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"test@example.com\",\"firstName\":\"Test\",\"lastName\":\"User\",\"password\":\"password\",\"type\":\"EMPLOYEE\"}"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("User Registered Successfully"));
@@ -207,7 +207,8 @@ class UserControllerTest {
         String skill = "Java";
         EmployeeSkillDTO skillDTO = new EmployeeSkillDTO("Test", skill);
 
-        when(userService.filterEmployeeWithSkills(skill)).thenReturn(Arrays.asList(skillDTO));
+        FilterEmployeeDTO FilterEmployeeDTO = new FilterEmployeeDTO("Akash Tiwari", 1L,"Java");
+        when(userService.filterEmployeeWithSkills(skill)).thenReturn(Arrays.asList(FilterEmployeeDTO));
 
         mockMvc.perform(get("/employeeskills/{skill}", skill))
                 .andExpect(status().isOk())
